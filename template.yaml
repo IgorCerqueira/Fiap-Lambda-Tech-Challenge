@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  authenticate-lambda
+
+  Sample SAM Template for authenticate-lambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  AuthenticateFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: authenticate_lambda/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        AuthenticateEvent:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /authenticate
+            Method: get
+      VpcConfig:  # Configuração da VPC
+        SecurityGroupIds:
+          - sg-0335d769731306b50
+        SubnetIds:
+          - subnet-06d628e264adb1a0c
+          - subnet-08d00141fe28f1701
+          - subnet-0f70f53b967517a56
+          - subnet-0b96a39452654e219
+          - subnet-0cb7297721579e10f
+          - subnet-06fdfd1c13a007356
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  AuthenticateApi:
+    Description: "API Gateway endpoint URL for Prod stage for Authenticate function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/authenticate/"
+  AuthenticateFunction:
+    Description: "Authenticate Lambda Function ARN"
+    Value: !GetAtt AuthenticateFunction.Arn
+  AuthenticateFunctionIamRole:
+    Description: "Implicit IAM Role created for Authenticate function"
+    Value: !GetAtt AuthenticateFunctionRole.Arn
