@@ -1,9 +1,9 @@
 name: Deploy
 
 on:
-  push:
+  merge:
     branches:
-      - lambda-deploy
+      - main
       
 jobs:
   build-deploy:
