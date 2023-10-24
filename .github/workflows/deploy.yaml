@@ -1,9 +1,9 @@
 name: Deploy
 
 on:
-  merge:
-    branches:
-      - main
+  pull_request:
+    types:
+      - closed
       
 jobs:
   build-deploy:
