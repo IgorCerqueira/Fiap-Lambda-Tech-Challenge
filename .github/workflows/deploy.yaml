@@ -17,10 +17,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      # sam build 
+          
       - run: sam build
-
-# Run Unit tests- Specify unit tests here 
-
-# sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --capabilities CAPABILITY_IAM --region us-east-1 --resolve-s3
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name authenticate-lambda --capabilities CAPABILITY_IAM --region us-east-1 --resolve-s3
+      - run: aws lambda update-function-configuration --function-name Authentica-Lambda --environment "Variables={REDIS_CLUSTER=${{ secrets.REDIS_CLUSTER }}, REDIS_PORT=${{ secrets.REDIS_PORT }}, MONGO_CLUSTER=${{ secrets.MONGO_CLUSTER }}, MONGO_LOGIN=${{ secrets.MONGO_LOGIN }}, MONGO_PASSW=${{ secrets.MONGO_PASSW }}, MONGO_TLS=${{ secrets.MONGO_TLS }} }"
