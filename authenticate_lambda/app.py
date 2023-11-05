@@ -57,7 +57,7 @@ def lambda_handler(event, context):
             "statusCode": 404,
             "body": "Usuário não encontrado"
         }
-
+    print("oi")
     return {
         "statusCode": 400,
         "body": "Parâmetro não encontrado na URL - {event} - {event['queryStringParameters']}"
