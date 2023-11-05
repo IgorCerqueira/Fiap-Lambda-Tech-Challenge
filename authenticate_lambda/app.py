@@ -11,7 +11,7 @@ class MongoDBClient:
     def get_user_by_cpf(self, cpf):
         database = self.client['user']
         users_collection = database['users']
-        user = users_collection.find_one({"Nome": cpf})
+        user = users_collection.find_one({"cpf": cpf})
         return user
 
 
@@ -24,7 +24,7 @@ class RedisClient:
 
     def set_user(self, user):
         try:
-            chave = user["Nome"]
+            chave = user["cpf"]
             self.client.set(chave, json.dumps(user, default=str))
         except Exception as e:
             raise Exception(f"Erro ao adicionar usuário ao Redis: {e}")
